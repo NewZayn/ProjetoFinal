@@ -17,8 +17,7 @@ export default function Home() {
             <DrawerOverlay>
               <DrawerContent>
                 <DrawerCloseButton />
-                <DrawerBody>
-                  <Link to="/workspaces/Projeto-telas-Home-e-Sobre/habitus/src/routes/sobre.jsx">Sobre</Link>
+                 <DrawerBody>
                 </DrawerBody>
               </DrawerContent>
             </DrawerOverlay>
@@ -27,6 +26,7 @@ export default function Home() {
       </Box>
       <Box as="main">
         <VStack as="section" className="home" p={5}>
+          <Link to="/sobre">Sobre</Link> {/* Altere o caminho para "/sobre" */}
           <Image src="" alt="Girassol" className="background-gif" />
           <Heading className="title">Habitus</Heading>
           <Text className="subtitle">Transforme sua vida com hábitos saudáveis.</Text>
