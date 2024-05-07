@@ -1,41 +1,81 @@
-.App {
-  text-align: center;
-}
 
-.navbar {
-  background-color: #282c34;
-  padding: 20px 0;
-  color: white;
-}
 
-.home {
-  padding: 50px 0;
-}
-
-.title {
-  font-size: 2.5em;
-  color: #282c34;
-}
-
-.start-button {
-  background-color: #282c34;
-  color: white;
-  padding: 10px 20px;
-  font-size: 1.2em;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 20px;
-}
 
 footer {
-  background-color: #282c34;
+  
+  display: flow-root;
+  margin-right: 10px;
+  align-items: flex-end; /* Alterado para flex-end para alinhar o conteúdo ao final */
+  background-color: #319795;
   color: white;
-  padding: 20px 0;
-  position: fixed;
-  width: 100%;
+  position: fixed; /* Alterado para fixed para manter o footer fixo no final */
+width: 100%;
   bottom: 0;
 }
+
+.sunflower {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background-color: #ffcc00; /* cor do centro do girassol */
+  position: relative;
+}
+
+.center {
+  width: 50px;
+  height: 50px;
+  background-color: #333; /* cor do centro escuro do girassol */
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.petal {
+  width: 120px;
+  height: 20px;
+  background-color: #ffd700; /* cor das pétalas do girassol */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-origin: 0% 50%;
+}
+
+.petal:nth-child(1) {
+  transform: rotate(0deg) translate(-50%, -50%);
+}
+
+.petal:nth-child(2) {
+  transform: rotate(45deg) translate(-50%, -50%);
+}
+
+.petal:nth-child(3) {
+  transform: rotate(90deg) translate(-50%, -50%);
+}
+
+.petal:nth-child(4) {
+  transform: rotate(135deg) translate(-50%, -50%);
+}
+
+.petal:nth-child(5) {
+  transform: rotate(180deg) translate(-50%, -50%);
+}
+
+.petal:nth-child(6) {
+  transform: rotate(225deg) translate(-50%, -50%);
+}
+
+.petal:nth-child(7) {
+  transform: rotate(270deg) translate(-50%, -50%);
+}
+
+.petal:nth-child(8) {
+  transform: rotate(315deg) translate(-50%, -50%);
+}
+
+
+
 .background-gif {
   position: absolute;
   top: 0;
@@ -44,4 +84,16 @@ footer {
   height: 100%;
   z-index: -1;
 }
+.start-button {
+  background-color: #319795;
+  color: white;
+  padding: 20px 40px; /* Aumente o padding */
+  font-size: 1.5em; /* Aumente o tamanho da fonte */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+
 

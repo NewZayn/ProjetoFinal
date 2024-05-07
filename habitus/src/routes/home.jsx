@@ -1,32 +1,43 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Box, Heading, Text, Button, Image, VStack, HStack, useDisclosure, Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerBody } from "@chakra-ui/react";
 
 export default function Home() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
-    <div className="App">
-      <header>
-        <nav className="navbar">
-          <h1>Habitus</h1>
-          <Link to="/workspaces/Projeto-telas-Home-e-Sobre/habitus/src/routes/sobre.jsx">Sobre</Link>
-        </nav>
-      </header>
+    <Box className="App">
+      <Box as="header">
+        <HStack as="nav" p={5} bg="teal.500" color="white" justifyContent="space-between">
+          <Heading>Habitus</Heading>
+          <Text onClick={onOpen} className="menu-icon">
+            {isOpen ? 'X' : '☰'}
+          </Text>
+          <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
+            <DrawerOverlay>
+              <DrawerContent>
+                <DrawerCloseButton />
+                <DrawerBody>
+                  <Link to="/workspaces/Projeto-telas-Home-e-Sobre/habitus/src/routes/sobre.jsx">Sobre</Link>
+                </DrawerBody>
+              </DrawerContent>
+            </DrawerOverlay>
+          </Drawer>
+        </HStack>
+      </Box>
+      <Box as="main">
+        <VStack as="section" className="home" p={5}>
+          <Image src="" alt="Girassol" className="background-gif" />
+          <Heading className="title">Habitus</Heading>
+          <Text className="subtitle">Transforme sua vida com hábitos saudáveis.</Text>
+          <Button className="start-button" colorScheme="teal">Iniciar Hábitos Saudáveis</Button>
+        </VStack>
+      </Box>
 
-      <main>
-        <section className="home">
-          <img src="
-https://s2-glamour.glbimg.com/pZRXVRbH8QCZ48NolX7g3OUbo9Y=/0x0:2305x1537/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_ba3db981e6d14e54bb84be31c923b00c/internal_photos/bs/2023/A/6/RzNSd1SM6MR9Ql9lznpw/pexels-jane-doan-1128678.jpg
-" alt="Gif animado" className="background-gif" />
-          <h2 className="title">Habitus</h2>
-          <button className="start-button">Iniciar Hábitos Saudáveis</button>
-        </section>
-      </main>
-
-      <footer>
-        <p>© 2024 Habitus. Todos os direitos reservados.</p>
-      </footer>
-    </div>
+      <Box as="footer" p={5} bg="teal.500" color="white" textAlign="center">
+        <Text>© 2024 Habitus. Todos os direitos reservados.</Text>
+        <Text>Política de Privacidade | Termos e Condições</Text>
+      </Box>
+    </Box>
   );
 }
-
-
-
