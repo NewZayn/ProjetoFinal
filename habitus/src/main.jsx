@@ -1,23 +1,39 @@
-import * as React from "react";
-import * as ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import "./index.css";
-import Home from "./routes/home";
-import Sobre from "./routes/sobre";
+import * as React from 'react';
+import * as ReactDOM from 'react-dom/client';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { ChakraProvider } from '@chakra-ui/react';
+import './index.css';
+import App from './App';
+import Home from './routes/home';
+import Books from './components/navbar';
+import Sobre from './routes/sobre';
+
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <Home />,
+    path: '/',
+    element: <App />,
+    children: [
+      {
+        path: '/',
+        element: <Home />,
+      },
+      {
+        path: 'books',
+        element: <Books />,
+      },
+      {
+        path: 'sobre',
+        element: <Sobre />,
+      },
+    ],
   },
-  {
-    path: "/sobre", // Altere a rota para "/sobre"
-    element: <Sobre />,
-  }
 ]);
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <ChakraProvider>
+      <RouterProvider router={router} />
+    </ChakraProvider>
   </React.StrictMode>
 );
