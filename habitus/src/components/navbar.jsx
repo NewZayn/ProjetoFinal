@@ -15,6 +15,7 @@ import {
   MenuItem,
   MenuGroup,
   MenuDivider,
+  Center,
 } from '@chakra-ui/react';
 import { ChevronDownIcon, HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 
@@ -28,12 +29,14 @@ const Navbar = () => {
 
   return (
     <Box bg="blue.500" px={4}>
-      <Flex h={16} alignItems="center" justifyContent="space-between">
+      <Flex h={16} alignItems="center">
         {}
         <HStack spacing={8} alignItems="center">
           <Box>
-            <Heading size="md" color="white">
-              Alexandria
+            <Heading color="white">
+              <Center>
+               Alexandria
+              </Center>
             </Heading>
           </Box>
 

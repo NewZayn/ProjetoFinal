@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Input, Heading, VStack, Center } from '@chakra-ui/react';
+import { Box, Input, Heading, VStack, Center, Image } from '@chakra-ui/react';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
@@ -61,22 +61,35 @@ function Home() {
   return (
     <Box p={4}>
       <VStack spacing={4} align="stretch">
-
-        <Center>
-        <Input
-          placeholder="Search for books..."
-          value={searchTerm}
-          onChange={handleSearchChange}
-          borderRadius="full"
-          bg="gray.100"
-          _placeholder={{ color: 'gray.500' }}
-          width="30%"
-          align="center"
-        />
+        <Center> 
+          <Input
+            placeholder="Procurar livros..."  // Tradução para português
+            value={searchTerm}
+            onChange={handleSearchChange}
+            borderRadius="full"
+            bg="gray.100"
+            _placeholder={{ color: 'gray.500' }}
+            width="50%" // Aumenta a largura do campo de pesquisa
+            mb={4} // Adiciona margem inferior para separar do slider
+          />
         </Center>
-        <Heading size="lg" mt={8} mb={4}>New Books</Heading>
+
+        <Image
+          src="src/assets/g.jpg"
+          alt="Imagem de destaque"
+          boxSize="400px"
+          width="100%"
+          objectFit="cover"
+          mb={4} 
+          borderRadius="20px"
+        />
+
+        <Heading size="lg" mt={4} mb={4}>
+          Novo 
+        </Heading>
+
         <Slider {...settings}>
-          {filteredBooks.map(book => (
+          {filteredBooks.map((book) => (
             <Box key={book.id} p={4} bg="gray.200" borderRadius="md" textAlign="center">
               <Heading size="md">{book.title}</Heading>
             </Box>
@@ -88,3 +101,8 @@ function Home() {
 }
 
 export default Home;
+
+
+
+
+

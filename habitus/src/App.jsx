@@ -7,7 +7,7 @@ function App() {
   return (
     <Box>
       <Navbar />
-      <Box p={4}>
+      <Box p={32}>
         <Outlet />
       </Box>
     </Box>
