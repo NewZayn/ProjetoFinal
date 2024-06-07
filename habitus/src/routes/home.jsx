@@ -4,17 +4,41 @@ import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 
-const books = [
-  { title: 'Book 1', id: 1 },
-  { title: 'Book 2', id: 2 },
-  { title: 'Book 3', id: 3 },
-  { title: 'Book 4', id: 4 },
-  { title: 'Book 5', id: 5 },
-  { title: 'Book 6', id: 6 }
-];
+import BookCard from './components/book';
 
 function Home() {
   const [searchTerm, setSearchTerm] = useState('');
+
+  const books = [
+    {
+      id: 1,
+      title: 'O Senhor dos Anéis',
+      author: 'J.R.R. Tolkien',
+      coverImage: 'src/assets/g.jpg',
+      publisher: 'Allen & Unwin',
+      year: 1954,
+    },
+    {
+      id: 2,
+      title: 'Harry Potter e a Pedra Filosofal',
+      author: 'J.K. Rowling',
+      coverImage: 'src/assets/g.jpg',
+      publisher: 'Bloomsbury',
+      year: 1997,
+    },
+    
+  ];
+
+  const top10Books = [
+  
+    {
+      id: 1,
+      title: 'O Senhor dos Anéis',
+      author: 'J.R.R. Tolkien',
+      coverImage: 'src/assets/g.jpg',
+    },
+   
+  ];
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
@@ -58,41 +82,81 @@ function Home() {
     ]
   };
 
+  const top10Settings = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 5,
+    slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 1
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ]
+  };
+
   return (
-    <Box p={4}>
+    <Box >
       <VStack spacing={4} align="stretch">
-        <Center> 
+        <Center>
           <Input
-            placeholder="Procurar livros..."  // Tradução para português
+            placeholder="Procurar livros..."
             value={searchTerm}
             onChange={handleSearchChange}
             borderRadius="full"
             bg="gray.100"
             _placeholder={{ color: 'gray.500' }}
-            width="50%" // Aumenta a largura do campo de pesquisa
-            mb={4} // Adiciona margem inferior para separar do slider
+            width={{ base: '90%', md: '50%' }} 
+            mb={4}
           />
         </Center>
 
-        <Image
-          src="src/assets/g.jpg"
-          alt="Imagem de destaque"
-          boxSize="400px"
-          width="100%"
-          objectFit="cover"
-          mb={4} 
-          borderRadius="20px"
-        />
 
         <Heading size="lg" mt={4} mb={4}>
-          Novo 
+          Novo
         </Heading>
 
         <Slider {...settings}>
           {filteredBooks.map((book) => (
-            <Box key={book.id} p={4} bg="gray.200" borderRadius="md" textAlign="center">
-              <Heading size="md">{book.title}</Heading>
-            </Box>
+            <BookCard key={book.id} book={book} /> 
+          ))}
+        </Slider>
+
+        <Heading size="lg" mt={8} mb={4}>
+          Top 10 Livros
+        </Heading>
+
+        <Slider {...top10Settings}>
+          {top10Books.map((book) => (
+            <BookCard key={book.id} book={book} />
+          ))}
+        </Slider>
+
+        <Heading size="lg" mt={8} mb={4}>
+            Categorias
+        </Heading>
+
+        <Slider {...top10Settings}>
+          {top10Books.map((book) => (
+            <BookCard key={book.id} book={book} />
           ))}
         </Slider>
       </VStack>
@@ -101,8 +165,5 @@ function Home() {
 }
 
 export default Home;
-
-
-
 
 
