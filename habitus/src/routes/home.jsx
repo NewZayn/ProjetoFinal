@@ -1,54 +1,54 @@
-import React, { useState } from 'react';
-import { Box, Input, Heading, VStack, Center, Image } from '@chakra-ui/react';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import React, { useState, useEffect } from 'react';
+import {Box, Input, Heading, VStack, Center} from '@chakra-ui/react';
 import Slider from 'react-slick';
-import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import BookCard from './components/book.jsx';
+import '../index.css';
 
-import BookCard from './components/book';
-
-function Home() {
+const Home = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [books, setBooks] = useState([]);
+  const [top10Books, setTop10Books] = useState([]);
+  const [error, setError] = useState(null);
 
-  const books = [
-    {
-      id: 1,
-      title: 'O Senhor dos Anéis',
-      author: 'J.R.R. Tolkien',
-      coverImage: 'src/assets/g.jpg',
-      publisher: 'Allen & Unwin',
-      year: 1954,
-    },
-    {
-      id: 2,
-      title: 'Harry Potter e a Pedra Filosofal',
-      author: 'J.K. Rowling',
-      coverImage: 'src/assets/g.jpg',
-      publisher: 'Bloomsbury',
-      year: 1997,
-    },
-    
-  ];
+  useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/api/books/findAll');
+        if (!response.ok) throw new Error('Network response was not ok');
+        const data = await response.json();
+        setBooks(data);
+      } catch (error) {
+        setError('Error fetching books: ' + error.message);
+      }
+    };
 
-  const top10Books = [
-  
-    {
-      id: 1,
-      title: 'O Senhor dos Anéis',
-      author: 'J.R.R. Tolkien',
-      coverImage: 'src/assets/g.jpg',
-    },
-   
-  ];
+    const fetchTop10Books = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/api/users/books/top10');
+        if (!response.ok) throw new Error('Network response was not ok');
+        const data = await response.json();
+        setTop10Books(data);
+      } catch (error) {
+        setError('Error fetching top 10 books: ' + error.message);
+      }
+    };
+
+    fetchBooks();
+    fetchTop10Books();
+  }, []);
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
 
-  const filteredBooks = books.filter(book => 
-    book.title.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredBooks = books.filter(book =>
+      book.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const settings = {
+  const sliderSettings = {
     dots: true,
     infinite: true,
     speed: 500,
@@ -82,7 +82,7 @@ function Home() {
     ]
   };
 
-  const top10Settings = {
+  const top10SliderSettings = {
     dots: true,
     infinite: false,
     speed: 500,
@@ -114,56 +114,50 @@ function Home() {
   };
 
   return (
-    <Box >
-      <VStack spacing={4} align="stretch">
-        <Center>
+
+        <Box>
+        <Center padding={10}>
           <Input
-            placeholder="Procurar livros..."
-            value={searchTerm}
-            onChange={handleSearchChange}
-            borderRadius="full"
-            bg="gray.100"
-            _placeholder={{ color: 'gray.500' }}
-            width={{ base: '90%', md: '50%' }} 
-            mb={4}
+              placeholder="Procurar livros..."
+              value={searchTerm}
+              onChange={handleSearchChange}
+              borderRadius="full"
+              bg="gray.100"
+              _placeholder={{ color: 'grey.100' }}
+              width={{ base: '90%', md: '50%' }}
+              mb={4}
           />
         </Center>
+            <VStack spacing={4} align="stretch"  direction="row">
+              {error && <Box color="red.500">{error}</Box>}
+              <Heading size="lg" mt={4} mb={4}>
+                Novo
+              </Heading>
+              <Box className="slider-container">
+                <Slider {...sliderSettings}>
+                  {filteredBooks.map((book) => (
+                      <Box key={book.id} className="slide-item" alignItems="center" justifyContent="space-around" direction="row" mt={4}>
+                        <BookCard book={book} />
+                      </Box>
+                  ))}
+                </Slider>
+              </Box>
+              <Heading size="lg" mt={8} mb={4}>
+                Top 10 Livros
+              </Heading>
+              <Box className="slider-container">
+                <Slider {...top10SliderSettings}>
+                  {top10Books.map((book) => (
+                      <Box key={book.id} className="slide-item">
+                        <BookCard book={book} />
+                      </Box>
+                  ))}
+                </Slider>
+              </Box>
+            </VStack>
 
-
-        <Heading size="lg" mt={4} mb={4}>
-          Novo
-        </Heading>
-
-        <Slider {...settings}>
-          {filteredBooks.map((book) => (
-            <BookCard key={book.id} book={book} /> 
-          ))}
-        </Slider>
-
-        <Heading size="lg" mt={8} mb={4}>
-          Top 10 Livros
-        </Heading>
-
-        <Slider {...top10Settings}>
-          {top10Books.map((book) => (
-            <BookCard key={book.id} book={book} />
-          ))}
-        </Slider>
-
-        <Heading size="lg" mt={8} mb={4}>
-            Categorias
-        </Heading>
-
-        <Slider {...top10Settings}>
-          {top10Books.map((book) => (
-            <BookCard key={book.id} book={book} />
-          ))}
-        </Slider>
-      </VStack>
-    </Box>
+      </Box>
   );
-}
+};
 
 export default Home;
-
-
