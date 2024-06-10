@@ -60,11 +60,12 @@ const Home = () => {
       const response = await fetchBooksByTitle(title);
       setBooks(response);
     } catch (error) {
-      setError('Erro ao buscar livros por título: ' + error.message);
+      setError('' + error.message);
     }
   };
 
   const debouncedSearch = useCallback(debounce(searchBooks, 300), []);
+
   const filteredBooks = books.filter(book =>
       book.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -190,3 +191,4 @@ const Home = () => {
 };
 
 export default Home;
+

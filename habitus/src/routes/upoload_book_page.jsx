@@ -1,10 +1,8 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// routes/upload_book_page.jsx
 import React, { useState, useContext } from 'react';
-import axios from 'axios';
 import { Box, Heading, Input, Button, FormControl, FormLabel, FormErrorMessage, Select } from '@chakra-ui/react';
 import { AuthContext } from '../authcontext.jsx';
-
-
+import { addBook } from '../script/Book'; // Ajuste o caminho conforme necessário
 
 function AddBook() {
     const { user } = useContext(AuthContext);
@@ -38,12 +36,8 @@ function AddBook() {
         formData.append('userId', user.id);
 
         try {
-            const response = await axios.post(`http://localhost:8080/api/books/${user.id}/addBook`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
-            console.log('Livro adicionado com sucesso:', response.data);
+            const response = await addBook(user.id, formData);
+            console.log('Livro adicionado com sucesso:', response);
             window.alert('Livro adicionado com sucesso!');
         } catch (error) {
             console.error('Erro ao adicionar livro:', error);
@@ -68,7 +62,6 @@ function AddBook() {
                     <FormLabel htmlFor="title">Título:</FormLabel>
                     <Input type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)} />
                     <FormErrorMessage>Campo obrigatório</FormErrorMessage>
-
                 </FormControl>
                 <FormControl mb={3}>
                     <FormLabel htmlFor="category">Categoria:</FormLabel>
@@ -80,7 +73,6 @@ function AddBook() {
                 </FormControl>
                 <FormControl isRequired mb={3}>
                     <FormLabel htmlFor="description">Descrição:</FormLabel>
-                    {/* eslint-disable-next-line no-undef */}
                     <Input type="text" id="description" value={description} onChange={(e) => setDescription(e.target.value)} />
                     <FormErrorMessage>Campo obrigatório</FormErrorMessage>
                 </FormControl>
