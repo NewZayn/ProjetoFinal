@@ -1,13 +1,17 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { Box, Heading, Input, Button, FormControl, FormLabel, FormErrorMessage, Select } from '@chakra-ui/react';
 import { AuthContext } from '../authcontext.jsx';
+
+
 
 function AddBook() {
     const { user } = useContext(AuthContext);
     const [author, setAuthor] = useState('');
     const [isbn, setIsbn] = useState('');
     const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
     const [category, setCategory] = useState('');
     const [publishedDate, setPublishedDate] = useState('');
     const [coverImage, setCoverImage] = useState(null);
@@ -28,6 +32,7 @@ function AddBook() {
         formData.append('title', title);
         formData.append('category', category);
         formData.append('publishedDate', formattedPublishedDate);
+        formData.append('description', description);
         formData.append('image', coverImage);
         formData.append('pdf', pdfFile);
         formData.append('userId', user.id);
@@ -63,6 +68,7 @@ function AddBook() {
                     <FormLabel htmlFor="title">Título:</FormLabel>
                     <Input type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)} />
                     <FormErrorMessage>Campo obrigatório</FormErrorMessage>
+
                 </FormControl>
                 <FormControl mb={3}>
                     <FormLabel htmlFor="category">Categoria:</FormLabel>
@@ -71,6 +77,12 @@ function AddBook() {
                         <option value="Romance">Romance</option>
                         {/* Adicione mais categorias aqui */}
                     </Select>
+                </FormControl>
+                <FormControl isRequired mb={3}>
+                    <FormLabel htmlFor="description">Descrição:</FormLabel>
+                    {/* eslint-disable-next-line no-undef */}
+                    <Input type="text" id="description" value={description} onChange={(e) => setDescription(e.target.value)} />
+                    <FormErrorMessage>Campo obrigatório</FormErrorMessage>
                 </FormControl>
                 <FormControl isRequired mb={3}>
                     <FormLabel htmlFor="publishedDate">Data de Publicação:</FormLabel>

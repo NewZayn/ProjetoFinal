@@ -1,7 +1,7 @@
 import { Box, Flex, Heading, Input, Button, Stack } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
-import { loginUser } from '../interface/auth.js';
+import { loginUser } from '../script/Authenticate.js';
 import { AuthContext } from '../authcontext.jsx';
 
 function Login() {

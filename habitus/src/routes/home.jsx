@@ -1,11 +1,30 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import React, { useState, useEffect } from 'react';
-import {Box, Input, Heading, VStack, Center} from '@chakra-ui/react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Box, Input, Heading, VStack, Center } from '@chakra-ui/react';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import BookCard from './components/book.jsx';
+import CategoryCard from './components/category.jsx';
 import '../index.css';
+import { fetchBooks, fetchTop10Books, fetchBooksByTitle } from '../script/Book.js';
+
+const debounce = (func, delay) => {
+  let debounceTimer;
+  return function(...args) {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => func.apply(this, args), delay);
+  };
+};
+
+const categories = [
+  { name: 'Romance', image: 'src/assets/images.jpeg' },
+  { name: 'Ficção Científica', image: 'src/assets/ficção.jpeg' },
+  { name: 'Fantasia', image: 'src/assets/aventura.jpeg' },
+  { name: 'Biografia', image: 'src/assets/g.jpg' },
+  { name: 'História', image: 'src/assets/l.jpg' },
+  { name: 'Mistério', image: 'src/assets/p.jpg' },
+];
 
 const Home = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -14,36 +33,38 @@ const Home = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchBooks = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/api/books/findAll');
-        if (!response.ok) throw new Error('Network response was not ok');
-        const data = await response.json();
-        setBooks(data);
-      } catch (error) {
-        setError('Error fetching books: ' + error.message);
-      }
-    };
+    fetchBooks()
+        .then(response => {
+          setBooks(response);
+        })
+        .catch(error => {
+          setError('Erro ao buscar livros: ' + error.message);
+        });
 
-    const fetchTop10Books = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/api/users/books/top10');
-        if (!response.ok) throw new Error('Network response was not ok');
-        const data = await response.json();
-        setTop10Books(data);
-      } catch (error) {
-        setError('Error fetching top 10 books: ' + error.message);
-      }
-    };
-
-    fetchBooks();
-    fetchTop10Books();
+    fetchTop10Books()
+        .then(response => {
+          setTop10Books(response);
+        })
+        .catch(error => {
+          setError('Erro ao buscar top 10 livros: ' + error.message);
+        });
   }, []);
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
+    debouncedSearch(e.target.value);
   };
 
+  const searchBooks = async (title) => {
+    try {
+      const response = await fetchBooksByTitle(title);
+      setBooks(response);
+    } catch (error) {
+      setError('Erro ao buscar livros por título: ' + error.message);
+    }
+  };
+
+  const debouncedSearch = useCallback(debounce(searchBooks, 300), []);
   const filteredBooks = books.filter(book =>
       book.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -114,8 +135,7 @@ const Home = () => {
   };
 
   return (
-
-        <Box>
+      <Box>
         <Center padding={10}>
           <Input
               placeholder="Procurar livros..."
@@ -128,34 +148,43 @@ const Home = () => {
               mb={4}
           />
         </Center>
-            <VStack spacing={4} align="stretch"  direction="row">
-              {error && <Box color="red.500">{error}</Box>}
-              <Heading size="lg" mt={4} mb={4}>
-                Novo
-              </Heading>
-              <Box className="slider-container">
-                <Slider {...sliderSettings}>
-                  {filteredBooks.map((book) => (
-                      <Box key={book.id} className="slide-item" alignItems="center" justifyContent="space-around" direction="row" mt={4}>
-                        <BookCard book={book} />
-                      </Box>
-                  ))}
-                </Slider>
-              </Box>
-              <Heading size="lg" mt={8} mb={4}>
-                Top 10 Livros
-              </Heading>
-              <Box className="slider-container">
-                <Slider {...top10SliderSettings}>
-                  {top10Books.map((book) => (
-                      <Box key={book.id} className="slide-item">
-                        <BookCard book={book} />
-                      </Box>
-                  ))}
-                </Slider>
-              </Box>
-            </VStack>
-
+        <VStack spacing={4} align="stretch">
+          {error && <Box color="red.500">{error}</Box>}
+          <Heading size="lg" mt={4} mb={4}>
+            Novo
+          </Heading>
+          <Box className="slider-container">
+            <Slider {...sliderSettings}>
+              {filteredBooks.map((book) => (
+                  <Box key={book.id} className="slide-item" alignItems="center" justifyContent="space-around" mt={4}>
+                    <BookCard book={book} />
+                  </Box>
+              ))}
+            </Slider>
+          </Box>
+          <Heading size="lg" mt={4} mb={4}>
+            Top 10 Livros
+          </Heading>
+          <Box className="slider-container">
+            <Slider {...top10SliderSettings}>
+              {top10Books.map((book) => (
+                  <Box key={book.id} className="slide-item" alignItems="center" justifyContent="space-around" mt={4}>
+                    <BookCard book={book} />
+                  </Box>
+              ))}
+            </Slider>
+          </Box>
+          <Heading size="lg" mt={4} mb={4}>
+            Categorias
+          </Heading>
+          <Box className="slider-container">
+            <Slider {...sliderSettings}>
+              {categories.map(category => (
+                  <CategoryCard key={category.name} category={category.name} image={category.image} />
+              ))}
+            </Slider>
+          </Box>
+        </VStack>
       </Box>
   );
 };

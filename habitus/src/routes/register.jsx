@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Box, Flex, Heading, Input, Button, Stack, Link } from '@chakra-ui/react';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
-import { register } from '../interface/auth.js'; // Importa a função register do arquivo api.js
+import { register } from '../script/Authenticate.js';
 
 function Register() {
     const navigate = useNavigate();
@@ -19,11 +19,10 @@ function Register() {
 
     const handleRegister = async () => {
         try {
-            await register(formData); // Chama a função register com os dados do formulário
+            await register(formData);
             navigate('/');
         } catch (error) {
             console.error('Erro ao registrar:', error);
-            // Tratar o erro, exibir uma mensagem para o usuário, etc.
         }
     };
 

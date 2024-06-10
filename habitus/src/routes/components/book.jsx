@@ -3,6 +3,7 @@ import React from 'react';
 import { Box, Center, Image, Heading, Text, LinkBox, LinkOverlay } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
 
+// eslint-disable-next-line react/prop-types
 const BookCard = ({ book }) => {
     console.log("Book data: ", book);
     return (

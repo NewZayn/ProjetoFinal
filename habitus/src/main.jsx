@@ -6,15 +6,16 @@ import './index.css';
 import App from './App';
 import Home from './routes/home';
 import Books from './routes/navbar';
-import Sobre from './routes/sobre';
+import About from './routes/sobre';
 import Login from './routes/login.jsx';
 import Register from "./routes/register";
 import Bookdetails from "./routes/bookdetails";
-import ErrorPage from "./routes/errror_page.jsx";
+import ErrorPage from "./routes/error_page.jsx";
 import Profile from "./routes/profile_page";
 import AuthProvider from "./authcontext.jsx";
-import MinhaEstante from "./estante.jsx";
+import BookCase from "./routes/bookcase.jsx";
 import AddBook from "./routes/upoload_book_page.jsx";
+import Categorypage from "./routes/categorypage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -28,10 +29,10 @@ const router = createBrowserRouter([
       { path: 'profile', element: <Profile /> },
       { path: 'books', element: <Books /> },
       { path: 'bookdetails/:id', element: <Bookdetails /> },
-      { path: 'sobre', element: <Sobre /> },
-      { path: "/minha-estante", element: <MinhaEstante />},
-      { path: "/addBook", element: <AddBook />}
-
+      { path: 'about', element: <About /> },
+      { path: "/mybookcase", element: <BookCase />},
+      { path: "/addBook", element: <AddBook />},
+      {path: "/category/:category", element: <Categorypage />}
     ],
   },
 ]);

@@ -45,11 +45,8 @@ const Navbar = () => {
               <Link as={RouterLink} to="/" color="white" _hover={{ bg: 'blue.400' }}>
                 Home
               </Link>
-              <Link as={RouterLink} to="/sobre" color="white" _hover={{ bg: 'blue.400' }}>
+              <Link as={RouterLink} to="/about" color="white" _hover={{ bg: 'blue.400' }}>
                 Sobre
-              </Link>
-              <Link as={RouterLink} to="/profile" color="white" _hover={{ bg: 'blue.400' }}>
-                Profile
               </Link>
               <Menu isOpen={isCategoryOpen}>
                 <MenuButton
@@ -94,7 +91,7 @@ const Navbar = () => {
                     />
                     <MenuList>
                       <MenuItem as={RouterLink} to="/profile">Meu Perfil</MenuItem>
-                      <MenuItem as={RouterLink} to="/minha-estante">Minha Estante</MenuItem>
+                      <MenuItem as={RouterLink} to="/mybookcase">Minha Estante</MenuItem>
                       <MenuDivider />
                       <MenuItem onClick={logout}>Sair</MenuItem>
                     </MenuList>
