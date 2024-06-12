@@ -17,7 +17,7 @@ export const fetchTop10Books = async () => {
     return await response.json();
 };
 export const fetchBooksByTitle = async (title) => {
-    const response = await fetch(`http://localhost:8080/api/books/${title}/findByTitle`);
+    const response = await fetch(`${BASE_URL}/${title}/findByTitle`);
     if (!response.ok) {
         throw new Error('');
     }

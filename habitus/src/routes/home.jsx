@@ -1,5 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useState, useEffect, useCallback } from 'react';
-import { Box, Input, Heading, VStack, Center, Text, List, ListItem } from '@chakra-ui/react';
+import { Box, Input, Heading, VStack, Center, List, ListItem } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
@@ -52,6 +53,7 @@ const Home = () => {
     }
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedSearch = useCallback(debounce(searchBooks, 300), []);
 
   const handleSuggestionClick = (title) => {
