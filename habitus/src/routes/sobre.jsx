@@ -6,12 +6,11 @@ import {
     Heading,
     Text,
     Stack,
-    useColorModeValue,
 } from '@chakra-ui/react';
 
 export default function Sobre() {
     return (
-        <Box bg={useColorModeValue('gray.50', 'gray.900')} color={useColorModeValue('gray.700', 'gray.200')} py={10}>
+        <Box b py={10}>
             <Container maxW={'6xl'}>
                 <Stack spacing={4} as={Container} maxW={'3xl'} textAlign={'center'}>
                     <Heading fontSize={{ base: '2xl', sm: '4xl' }} fontWeight={'bold'}>

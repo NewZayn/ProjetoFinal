@@ -33,7 +33,7 @@ const BookDetails = () => {
     const handleAddToShelf = async () => {
         try {
             const favoriteDTO = { bookId: book.id };
-            await addFavorite(user.id, favoriteDTO); // Pass the user ID here
+            await addFavorite(user.id, favoriteDTO);
             alert('Livro adicionado à estante com sucesso!');
         } catch (error) {
             alert('Erro ao adicionar livro à estante: ' + error.message);
@@ -46,12 +46,12 @@ const BookDetails = () => {
     return (
         <ErrorBoundary>
             <Flex direction="column" align="center" p={8}>
-                <Box bg="white" p={8} width="100%" maxWidth="1200px" rounded="md" shadow="md" color="gray.500" border="1px solid gray.900">
+                <Box bg="white" p={8} width="100%" maxWidth="1200px" rounded="md" shadow="md" color="gray.500" >
                     <Heading mb={4}>{book.title}</Heading>
                     <Divider mb={4} />
                     <VStack spacing={4} align="stretch">
                         <Box p={4} borderWidth="1px" borderRadius="md">
-                            <Stack spacing={2} align="center">
+                            <Stack spacing={2} align="center" color={"blue.300"}>
                                 <Image src={book.image} alt={book.title} boxSize="150px" objectFit="cover" />
                                 <Text fontWeight="bold">{book.title}</Text>
                                 <HStack spacing={4}>

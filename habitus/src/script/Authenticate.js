@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:8080/api/client';
+const BASE_URL = 'https://back-end-repository-2.onrender.com/api/client';
 
 export const loginUser = async (credentials) => {
     console.log('Sending credentials to backend:', credentials);

@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:8080/api/books';
+const BASE_URL = 'https://back-end-repository-2.onrender.com/api/books';
 
 export const fetchBooks = async () => {
     const response = await fetch(`${BASE_URL}/findAllNewBooks`);

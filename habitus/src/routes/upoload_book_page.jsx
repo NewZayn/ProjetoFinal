@@ -1,8 +1,7 @@
-// routes/upload_book_page.jsx
 import React, { useState, useContext } from 'react';
-import { Box, Heading, Input, Button, FormControl, FormLabel, FormErrorMessage, Select } from '@chakra-ui/react';
+import axios from 'axios';
+import { Box, Heading, Input, Button, FormControl, FormLabel, FormErrorMessage, Select, useToast } from '@chakra-ui/react';
 import { AuthContext } from '../authcontext.jsx';
-import { addBook } from '../script/Book'; // Ajuste o caminho conforme necessário
 
 function AddBook() {
     const { user } = useContext(AuthContext);
@@ -14,6 +13,7 @@ function AddBook() {
     const [publishedDate, setPublishedDate] = useState('');
     const [coverImage, setCoverImage] = useState(null);
     const [pdfFile, setPdfFile] = useState(null);
+    const toast = useToast();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -28,17 +28,29 @@ function AddBook() {
         formData.append('author', author);
         formData.append('isbn', isbn);
         formData.append('title', title);
+        formData.append('description', description); // added missing description
         formData.append('category', category);
         formData.append('publishedDate', formattedPublishedDate);
-        formData.append('description', description);
         formData.append('image', coverImage);
         formData.append('pdf', pdfFile);
         formData.append('userId', user.id);
 
         try {
-            const response = await addBook(user.id, formData);
-            console.log('Livro adicionado com sucesso:', response);
-            window.alert('Livro adicionado com sucesso!');
+            const response = await axios.post(`https://back-end-repository-2.onrender.com/api/books/${user.id}/addBook`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            console.log('Livro adicionado com sucesso:', response.data);
+
+            // Show success toast
+            toast({
+                title: "Livro adicionado com sucesso.",
+                description: "O livro foi adicionado à sua coleção.",
+                status: "success",
+                duration: 5000,
+                isClosable: true,
+            });
         } catch (error) {
             console.error('Erro ao adicionar livro:', error);
         }
@@ -63,24 +75,27 @@ function AddBook() {
                     <Input type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)} />
                     <FormErrorMessage>Campo obrigatório</FormErrorMessage>
                 </FormControl>
+                <FormControl isRequired mb={3}>
+                    <FormLabel htmlFor="description">Descrição:</FormLabel>
+                    <Input type="text" id="description" value={description} onChange={(e) => setDescription(e.target.value)} />
+                    <FormErrorMessage>Campo obrigatório</FormErrorMessage>
+                </FormControl>
                 <FormControl mb={3}>
                     <FormLabel htmlFor="category">Categoria:</FormLabel>
                     <Select id="category" value={category} onChange={(e) => setCategory(e.target.value)}>
                         <option value="">Selecione uma categoria</option>
                         <option value="Romance">Romance</option>
-                        {/* Adicione mais categorias aqui */}
+                        <option value="Fantasia">Fantasia</option>
+                        <option value="Misterio">Misterio</option>
+                        <option value="Biografia">Biografia</option>
                     </Select>
-                </FormControl>
-                <FormControl isRequired mb={3}>
-                    <FormLabel htmlFor="description">Descrição:</FormLabel>
-                    <Input type="text" id="description" value={description} onChange={(e) => setDescription(e.target.value)} />
-                    <FormErrorMessage>Campo obrigatório</FormErrorMessage>
                 </FormControl>
                 <FormControl isRequired mb={3}>
                     <FormLabel htmlFor="publishedDate">Data de Publicação:</FormLabel>
                     <Input type="date" id="publishedDate" value={publishedDate} onChange={(e) => setPublishedDate(e.target.value)} />
                     <FormErrorMessage>Campo obrigatório</FormErrorMessage>
                 </FormControl>
+
                 <FormControl mb={3}>
                     <FormLabel htmlFor="image">Imagem de Capa:</FormLabel>
                     <Input type="file" id="image" onChange={(e) => setCoverImage(e.target.files[0])} />

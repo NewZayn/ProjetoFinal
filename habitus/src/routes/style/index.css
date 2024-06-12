@@ -1,14 +1,33 @@
-.slider-container {
-    width: 100%;
+/* Define the default arrow styles */
+.slick-prev,
+.slick-next {
+    font-size: 0; /* Hide the default text */
+    line-height: 0; /* Hide the default text */
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0;
+    cursor: pointer;
+    color: #000; /* Cor padrão das setas */
+    border: none;
+    background: transparent;
 }
 
-.slick-slide {
-    display: flex !important;
-    justify-content: center;
-    align-items: center;
+/* Estilo para a seta anterior */
+.slick-prev:before {
+    font-size: 20px;
+    color: gray; /* Mude a cor aqui */
 }
 
-.slide-item {
-    padding: 10px;
-    box-sizing: border-box;
+.slick-next:before {
+    font-size: 20px;
+    color: gray;
+}
+
+.slick-prev {
+    left: -25px;
+}
+
+.slick-next {
+    right: -25px;
 }

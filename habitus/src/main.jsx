@@ -16,6 +16,7 @@ import AuthProvider from "./authcontext.jsx";
 import BookCase from "./routes/bookcase.jsx";
 import AddBook from "./routes/upoload_book_page.jsx";
 import Categorypage from "./routes/categorypage.jsx";
+import SearchResults from "./routes/booksearch.jsx";
 
 const router = createBrowserRouter([
   {
@@ -32,7 +33,8 @@ const router = createBrowserRouter([
       { path: 'about', element: <About /> },
       { path: "/mybookcase", element: <BookCase />},
       { path: "/addBook", element: <AddBook />},
-      {path: "/category/:category", element: <Categorypage />}
+      {path: "/category/:category", element: <Categorypage />},
+      {path: "/search", element: <SearchResults />}
     ],
   },
 ]);

@@ -1,6 +1,6 @@
-// Navbar Component
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   Box,
@@ -17,7 +17,8 @@ import {
   Center,
   Button,
   IconButton,
-  Avatar,
+  Text,
+  Avatar, VStack,
 } from '@chakra-ui/react';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import { AuthContext } from '../authcontext.jsx';
@@ -89,6 +90,15 @@ const Navbar = () => {
                         color="white"
                         _hover={{ bg: 'blue.400' }}
                     />
+                    <VStack
+                        alignItems="flex-start"
+                        spacing="1px"
+                        ml="2">
+                      <Text fontSize="sm">{user.name}</Text>
+                      <Text fontSize="xs" color="gray.600">
+                        {user.status}
+                      </Text>
+                    </VStack>
                     <MenuList>
                       <MenuItem as={RouterLink} to="/profile">Meu Perfil</MenuItem>
                       <MenuItem as={RouterLink} to="/mybookcase">Minha Estante</MenuItem>

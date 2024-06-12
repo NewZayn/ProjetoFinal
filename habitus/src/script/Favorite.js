@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:8080/api/favorites';
+const BASE_URL = 'https://back-end-repository-2.onrender.com/api/favorites';
 
 
 export const fetchFavorites = async (userId) => {

@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useState, useEffect, useContext } from 'react';
 import { Box, Heading, SimpleGrid, Text, Flex, Button, Stack, Divider } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
@@ -80,7 +81,6 @@ const BookCase = () => {
             setIsLoading(false);
         }
     };
-
     return (
         <Flex justify="center" alignItems="center" direction="column" p={5} bg="gray.50">
             <Box bg="white" p={8} width="100%" maxWidth="1200px" rounded="md" shadow="md" color="gray.500" border="1px solid gray.900">

@@ -1,21 +1,14 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useState, useEffect, useCallback } from 'react';
-import { Box, Input, Heading, VStack, Center } from '@chakra-ui/react';
+import { Box, Input, Heading, VStack, Center, Text, List, ListItem } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import BookCard from './components/book.jsx';
 import CategoryCard from './components/category.jsx';
-import '../index.css';
+import './style/index.css';
 import { fetchBooks, fetchTop10Books, fetchBooksByTitle } from '../script/Book.js';
-
-const debounce = (func, delay) => {
-  let debounceTimer;
-  return function(...args) {
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(() => func.apply(this, args), delay);
-  };
-};
+import debounce from 'lodash.debounce';
 
 const categories = [
   { name: 'Romance', image: 'src/assets/images.jpeg' },
@@ -31,51 +24,47 @@ const Home = () => {
   const [books, setBooks] = useState([]);
   const [top10Books, setTop10Books] = useState([]);
   const [error, setError] = useState(null);
+  const [suggestions, setSuggestions] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchBooks()
-        .then(response => {
-          setBooks(response);
-        })
-        .catch(error => {
-          setError('Erro ao buscar livros: ' + error.message);
-        });
+        .then(response => setBooks(response))
+        .catch(error => setError('Erro ao buscar livros: ' + error.message));
 
     fetchTop10Books()
-        .then(response => {
-          setTop10Books(response);
-        })
-        .catch(error => {
-          setError('Erro ao buscar top 10 livros: ' + error.message);
-        });
+        .then(response => setTop10Books(response))
+        .catch(error => setError('Erro ao buscar top 10 livros: ' + error.message));
   }, []);
 
   const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-    debouncedSearch(e.target.value);
+    const value = e.target.value;
+    setSearchTerm(value);
+    debouncedSearch(value);
   };
 
   const searchBooks = async (title) => {
     try {
       const response = await fetchBooksByTitle(title);
-      setBooks(response);
+      setSuggestions(response);
     } catch (error) {
-      setError('' + error.message);
+      console.error('Erro ao buscar sugestões: ', error);
     }
   };
 
   const debouncedSearch = useCallback(debounce(searchBooks, 300), []);
 
-  const filteredBooks = books.filter(book =>
-      book.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const handleSuggestionClick = (title) => {
+    navigate(`/search?q=${title}`);
+  };
 
   const sliderSettings = {
     dots: true,
-    infinite: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 1,
+
     responsive: [
       {
         breakpoint: 1024,
@@ -138,25 +127,40 @@ const Home = () => {
   return (
       <Box>
         <Center padding={10}>
-          <Input
-              placeholder="Procurar livros..."
-              value={searchTerm}
-              onChange={handleSearchChange}
-              borderRadius="full"
-              bg="gray.100"
-              _placeholder={{ color: 'grey.100' }}
-              width={{ base: '90%', md: '50%' }}
-              mb={4}
-          />
+          <Box position="relative" width={{ base: '90%', md: '50%' }}>
+            <Input
+                placeholder="Procurar livros..."
+                value={searchTerm}
+                onChange={handleSearchChange}
+                borderRadius="full"
+                bg="gray.100"
+                _placeholder={{ color: 'grey.100' }}
+                mb={4}
+            />
+            {suggestions.length > 0 && (
+                <List position="absolute" bg="white" zIndex="1" w="100%">
+                  {suggestions.map((book) => (
+                      <ListItem
+                          key={book.id}
+                          onClick={() => handleSuggestionClick(book.title)}
+                          cursor="pointer"
+                          _hover={{ backgroundColor: 'gray.200' }}
+                      >
+                        {book.title}
+                      </ListItem>
+                  ))}
+                </List>
+            )}
+          </Box>
         </Center>
         <VStack spacing={4} align="stretch">
           {error && <Box color="red.500">{error}</Box>}
           <Heading size="lg" mt={4} mb={4}>
             Novo
           </Heading>
-          <Box className="slider-container">
+          <Box className="slider-container" bg="white" borderRadius={10} shadow="lg">
             <Slider {...sliderSettings}>
-              {filteredBooks.map((book) => (
+              {books.map((book) => (
                   <Box key={book.id} className="slide-item" alignItems="center" justifyContent="space-around" mt={4}>
                     <BookCard book={book} />
                   </Box>
@@ -166,7 +170,7 @@ const Home = () => {
           <Heading size="lg" mt={4} mb={4}>
             Top 10 Livros
           </Heading>
-          <Box className="slider-container">
+          <Box className="slider-container" bg="white" borderRadius={10} shadow="lg">
             <Slider {...top10SliderSettings}>
               {top10Books.map((book) => (
                   <Box key={book.id} className="slide-item" alignItems="center" justifyContent="space-around" mt={4}>
@@ -180,7 +184,7 @@ const Home = () => {
           </Heading>
           <Box className="slider-container">
             <Slider {...sliderSettings}>
-              {categories.map(category => (
+              {categories.map((category) => (
                   <CategoryCard key={category.name} category={category.name} image={category.image} />
               ))}
             </Slider>
@@ -191,4 +195,3 @@ const Home = () => {
 };
 
 export default Home;
-
