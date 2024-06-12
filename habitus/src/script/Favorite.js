@@ -16,7 +16,7 @@ export const fetchFavorites = async (userId) => {
 };
 
 export const addFavorite = async (userId, favoriteDTO) => {
-    const response = await fetch(`http://localhost:8080/api/favorites/${userId}`, {
+    const response = await fetch(`${BASE_URL}/${userId}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
