@@ -8,16 +8,22 @@ import BookCard from './components/book.jsx';
 import CategoryCard from './components/category.jsx';
 import './style/index.css';
 import { fetchBooks, fetchTop10Books } from '../script/Book.js';
+import p from "../assets/aventura.jpeg";
+import g from "../assets/ficção.jpeg";
+import e from "../assets/g.jpg"
+import l from "../assets/l.jpg"
+import y from "../assets/p.jpg"
+import u from "../assets/images.jpeg"
 
 
 
 const categories = [
-  { name: 'Romance', image: '../assets/images.jpeg' },
-  { name: 'Ficção Científica', image: '../assets/ficção.jpeg' },
-  { name: 'Fantasia', image: '../assets/aventura.jpeg' },
-  { name: 'Biografia', image: '../assets/g.jpg' },
-  { name: 'História', image: '../assets/l.jpg' },
-  { name: 'Mistério', image: '../assets/p.jpg' },
+  { name: 'Romance', image: u },
+  { name: 'Ficção Científica', image: g },
+  { name: 'Fantasia', image: p },
+  { name: 'Biografia', image: e },
+  { name: 'História', image: l },
+  { name: 'Mistério', image: y},
 ];
 
 const Home = () => {
