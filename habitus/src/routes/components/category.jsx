@@ -1,6 +1,9 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from 'react';
 import { Box, Center, Image, Heading, LinkBox, LinkOverlay } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
+
+
 
 // eslint-disable-next-line react/prop-types
 const CategoryCard = ({ category, image }) => {

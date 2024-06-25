@@ -1,15 +1,16 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from 'react';
-import { Box, Center, Image, Heading, Text, LinkBox, LinkOverlay } from '@chakra-ui/react';
+import {Box, Center, Image, Heading, Text, LinkBox, LinkOverlay, Flex , Badge} from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
 
 const BookImage = ({ image, title }) => (
     <Image
+        py={2}
         src={image}
         alt={title}
         height="220px"
-        width="200px" // Defina a largura desejada
-        objectFit="cover" // Ajusta o conteúdo da imagem
+        width="240px" // Defina a largura desejada
+        objectFit="contain" // Ajusta o conteúdo da imagem
     />
 );
 
@@ -17,18 +18,24 @@ const BookImage = ({ image, title }) => (
 const BookCard = ({ book }) => {
     console.log("Book data: ", book);
     return (
-        <Center maxW="260px" borderRadius="md" overflow="hidden" bg="white" m={2}>
+        <Center maxW="260px" borderRadius="md" overflow="hidden" bg="white" >
             <LinkBox as="article">
-                <BookImage key={book.id} image={book.image} title={book.title} />
-                <Box p="5">
+                <Box >
+                    <BookImage key={book.id} image={book.image} title={book.title}  />
+                    <Flex flexDirection="column" justifyContent="space-between" >
+
                     <LinkOverlay as={RouterLink} to={`/bookdetails/${book.id}`}>
                         {/* eslint-disable-next-line react/prop-types */}
-                        <Heading size="md" mt={2} isTruncated maxW="200px">{book.title}</Heading>
+                        <Heading size="md" paddingTop={3} fontSize={15} isTruncated maxW="200px">{book.title} </Heading >
+                        <Text color="grey" size="md" fontSize={13} isTruncated maxW="200px">Autor: {book.author} </Text>
+
                     </LinkOverlay>
-                    <Text mt={1} color={"grey.100"} isTruncated maxW="200px">Autor: {book.author}</Text>
-                    <Text mt={2} fontSize={13} color={"green.400"}>Public</Text>
+                        <Flex>
+                            <Text  fontSize={10} fontWeight={600} color="green" borderRadius={5} shadow="initial">Público</Text>
+                        </Flex>
                     {book.publisher && <Text>Editora: {book.publisher}</Text>}
                     {book.year && <Text>Ano: {book.year}</Text>}
+                    </Flex>
                 </Box>
             </LinkBox>
         </Center>

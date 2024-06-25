@@ -1,7 +1,7 @@
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import React, { useState, useContext } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import React, {useState, useContext, useCallback} from 'react';
+import {Link as RouterLink, useNavigate} from 'react-router-dom';
 import {
   Box,
   Flex,
@@ -14,42 +14,107 @@ import {
   MenuItem,
   MenuGroup,
   MenuDivider,
-  Center,
   Button,
   IconButton,
   Text,
-  Avatar, VStack,
+  Avatar, VStack, Center, Input, List, ListItem,
 } from '@chakra-ui/react';
-import { ChevronDownIcon } from '@chakra-ui/icons';
+import {ChevronDownIcon, Search2Icon} from '@chakra-ui/icons';
 import { AuthContext } from '../authcontext.jsx';
+import './style/index.css';
+import {fetchBooksByTitle} from "../script/Book.js";
+import debounce from 'lodash.debounce';
+
 
 
 const Navbar = () => {
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const { user, logout } = useContext(AuthContext);
+  const [suggestions, setSuggestions] = useState([]);
+  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState('');
 
   const handleCategoryClick = () => {
     setIsCategoryOpen(!isCategoryOpen);
   };
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    debouncedSearch(value);
+  };
 
+  const searchBooks = async (title) => {
+    try {
+      const response = await fetchBooksByTitle(title);
+      setSuggestions(response);
+    } catch (error) {
+      console.error('Erro ao buscar sugestões: ', error);
+    }
+  };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const debouncedSearch = useCallback(debounce(searchBooks, 300), []);
+
+  const handleSuggestionClick = (title) => {
+    navigate(`/search?q=${title}`);
+  };
   return (
       <Box bg="blue.500" px={4}>
-        <Flex h={16} alignItems="center" justifyContent="space-between">
+        <Flex h={20}  justifyContent="space-between" direction="row" borderBottom={1}
+              align={'center'} alignItems={"center"}>
           <Box>
-            <Heading color="white">
-              <Center>Alexandria</Center>
+            <Heading color="white" paddingLeft={40}>
+              <Text fontFamily=" 'Poppins', sans-serif" color={"gray.300"}>Alexandria</Text>
             </Heading>
           </Box>
-          <HStack spacing={8} alignItems="center">
+          <Flex  alignItems="center" justifyContent="space-between">
+            <Center>
+              <Box position="relative" w="100%" >
+                <Input
+                    placeholder="Procurar livros..."
+                    value={searchTerm}
+                    onChange={handleSearchChange}
+                    borderRadius="full"
+                    bg="gray.100"
+                    _placeholder={{ color: 'grey.100' }}
+                    width={500}
+                />
+                {suggestions.length > 0 && (
+                    <List position="absolute" bg="white" zIndex="1" w="100%" borderRadius="md" >
+                      {suggestions.map((book) => (
+                          <ListItem
+                              key={book.id}
+                              onClick={() => handleSuggestionClick(book.title)}
+                              cursor="pointer"
+                              _hover={{ backgroundColor: 'gray.200' }}
+                          >
+                            <Box >
+                              {<Search2Icon />}
+                              {book.title}
+                            </Box>
+
+                            <Box
+                                height="1px"
+                                width="100%"
+                                background="blue.500"
+                            ></Box>
+                          </ListItem>
+                      ))}
+                    </List>
+                )}
+              </Box>
+            </Center>
+          </Flex>
+
+          <HStack spacing={8} alignItems="center" >
             <HStack as="nav" spacing={4} display={{ base: 'none', md: 'flex' }}>
-              <Link as={RouterLink} to="/" color="white" _hover={{ bg: 'blue.400' }}>
+              <Link as={RouterLink} to="/" color="white" >
                 Home
               </Link>
-              <Link as={RouterLink} to="/about" color="white" _hover={{ bg: 'blue.400' }}>
+              <Link as={RouterLink} to="/about" color="white" >
                 Sobre
               </Link>
-              <Menu isOpen={isCategoryOpen}>
+              <Menu isOpen={isCategoryOpen} >
                 <MenuButton
                     as={Button}
                     colorScheme="blue"
@@ -57,7 +122,7 @@ const Navbar = () => {
                     onClick={handleCategoryClick}
                     _hover={{ bg: 'blue.400' }}
                 >
-                  Categorias
+                  <Text fontFamily="Poppins" >Categorias</Text>
                 </MenuButton>
                 <MenuList>
                   <MenuGroup title="Ficção">

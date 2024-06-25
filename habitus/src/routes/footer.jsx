@@ -14,8 +14,6 @@ import {
 } from '@chakra-ui/react';
 import { FaTwitter, FaYoutube, FaInstagram } from 'react-icons/fa';
 
-
-
 const ListHeader = ({ children }) => {
     return (
         <Text fontWeight={'500'} fontSize={'lg'} mb={2}>

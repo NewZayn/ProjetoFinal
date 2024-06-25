@@ -1,7 +1,8 @@
 // src/routes/SearchResults.jsx
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useState, useEffect } from 'react';
-import { Box, Grid, GridItem, Button, Heading } from '@chakra-ui/react';
+import { Box, Grid, GridItem, Heading } from '@chakra-ui/react';
 import { useLocation } from 'react-router-dom';
 import BookCard from './components/book.jsx';
 import { fetchBooksByTitle } from '../script/Book.js';

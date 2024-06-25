@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useState, useContext } from 'react';
 import {
     Box,
@@ -10,7 +11,6 @@ import {
     Stack,
     Input,
     FormLabel,
-    Textarea,
     useDisclosure,
     ModalFooter,
     ModalHeader,
@@ -28,7 +28,7 @@ const Profile = () => {
     const [email, setEmail] = useState(user?.email || '');
     const [password, setPassword] = useState('');
     const [file, setFile] = useState(null);
-    const navigate = useNavigate();
+    useNavigate();
     const { isOpen, onClose, onOpen } = useDisclosure();
 
     const handleFileUpload = (event) => {

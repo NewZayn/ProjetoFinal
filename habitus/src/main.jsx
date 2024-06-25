@@ -2,7 +2,6 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
-import './index.css';
 import App from './App';
 import Home from './routes/home';
 import Books from './routes/navbar';
@@ -17,6 +16,8 @@ import BookCase from "./routes/bookcase.jsx";
 import AddBook from "./routes/upoload_book_page.jsx";
 import Categorypage from "./routes/categorypage.jsx";
 import SearchResults from "./routes/booksearch.jsx";
+
+
 
 const router = createBrowserRouter([
   {

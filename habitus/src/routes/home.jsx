@@ -1,15 +1,15 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import React, { useState, useEffect, useCallback } from 'react';
-import { Box, Input, Heading, VStack, Center, List, ListItem } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import {Box, Heading, VStack, Center, Text, Flex, Button} from '@chakra-ui/react';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import BookCard from './components/book.jsx';
 import CategoryCard from './components/category.jsx';
 import './style/index.css';
-import { fetchBooks, fetchTop10Books, fetchBooksByTitle } from '../script/Book.js';
-import debounce from 'lodash.debounce';
+import { fetchBooks, fetchTop10Books } from '../script/Book.js';
+
+
 
 const categories = [
   { name: 'Romance', image: 'src/assets/images.jpeg' },
@@ -21,12 +21,10 @@ const categories = [
 ];
 
 const Home = () => {
-  const [searchTerm, setSearchTerm] = useState('');
   const [books, setBooks] = useState([]);
   const [top10Books, setTop10Books] = useState([]);
   const [error, setError] = useState(null);
-  const [suggestions, setSuggestions] = useState([]);
-  const navigate = useNavigate();
+
 
   useEffect(() => {
     fetchBooks()
@@ -38,27 +36,6 @@ const Home = () => {
         .catch(error => setError('Erro ao buscar top 10 livros: ' + error.message));
   }, []);
 
-  const handleSearchChange = (e) => {
-    const value = e.target.value;
-    setSearchTerm(value);
-    debouncedSearch(value);
-  };
-
-  const searchBooks = async (title) => {
-    try {
-      const response = await fetchBooksByTitle(title);
-      setSuggestions(response);
-    } catch (error) {
-      console.error('Erro ao buscar sugestões: ', error);
-    }
-  };
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedSearch = useCallback(debounce(searchBooks, 300), []);
-
-  const handleSuggestionClick = (title) => {
-    navigate(`/search?q=${title}`);
-  };
 
   const sliderSettings = {
     dots: true,
@@ -94,13 +71,13 @@ const Home = () => {
       }
     ]
   };
-
   const top10SliderSettings = {
     dots: true,
     infinite: false,
     speed: 500,
-    slidesToShow: 5,
+    slidesToShow: 4,
     slidesToScroll: 1,
+    setError: "Books not found",
     responsive: [
       {
         breakpoint: 1024,
@@ -128,63 +105,53 @@ const Home = () => {
 
   return (
       <Box>
-        <Center padding={10}>
-          <Box position="relative" width={{ base: '90%', md: '50%' }}>
-            <Input
-                placeholder="Procurar livros..."
-                value={searchTerm}
-                onChange={handleSearchChange}
-                borderRadius="full"
-                bg="gray.100"
-                _placeholder={{ color: 'grey.100' }}
-                mb={4}
-            />
-            {suggestions.length > 0 && (
-                <List position="absolute" bg="white" zIndex="1" w="100%">
-                  {suggestions.map((book) => (
-                      <ListItem
-                          key={book.id}
-                          onClick={() => handleSuggestionClick(book.title)}
-                          cursor="pointer"
-                          _hover={{ backgroundColor: 'gray.200' }}
-                      >
-                        {book.title}
-                      </ListItem>
-                  ))}
-                </List>
-            )}
-          </Box>
-        </Center>
+        <Box height="30vh" background="white" borderRadius="md">
+          <Center height="100%">
+            <Flex alignItems="center" justifyContent="center" direction="column">
+              <Text padding={22} as="h1" fontSize="2xl" mt={4} textAlign="center">
+                Explore nossa Biblioteca
+              </Text>
+              <Button  borderRadius="md" color="white" background="blue.500">Recomendação do dia </Button>
+            </Flex>
+          </Center>
+        </Box>
         <VStack spacing={4} align="stretch">
           {error && <Box color="red.500">{error}</Box>}
           <Heading size="lg" mt={4} mb={4}>
-            Novo
+            <Text fontFamily="Montserrat" fontSize="x-large">
+             Novo
+            </Text>
           </Heading>
           <Box className="slider-container" bg="white" borderRadius={10} shadow="lg">
             <Slider {...sliderSettings}>
               {books.map((book) => (
-                  <Box key={book.id} className="slide-item" alignItems="center" justifyContent="space-around" mt={4}>
+                  <Box key={book.id} className="slide-item" alignItems="center" justifyContent="space-around" mt={4} padding={10}>
                     <BookCard book={book} />
                   </Box>
               ))}
             </Slider>
           </Box>
           <Heading size="lg" mt={4} mb={4}>
-            Top 10 Livros
+            <Text fontFamily="Montserrat"  fontSize="x-large">
+              Top 10 Livros
+            </Text>
           </Heading>
           <Box className="slider-container" bg="white" borderRadius={10} shadow="lg">
             <Slider {...top10SliderSettings}>
               {top10Books.map((book) => (
-                  <Box key={book.id} className="slide-item" alignItems="center" justifyContent="space-around" mt={4}>
+                  <Box key={book.id} className="slide-item" alignItems="center" justifyContent="space-around" mt={4} padding={10}>
                     <BookCard book={book} />
                   </Box>
               ))}
             </Slider>
           </Box>
-          <Heading size="lg" mt={4} mb={4}>
-            Categorias
-          </Heading>
-          <Box className="slider-container">
+          <Heading size="lg" mt={4} mb={4} >
+            <Text fontFamily="Montserrat" fontSize="x-large">
+              Categorias
+            </Text>
+
+          </Heading >
+          <Box className="slider-container" alignItems="center" bg="white" borderRadius={10} shadow="lg" padding={10}>
             <Slider {...sliderSettings}>
               {categories.map((category) => (
                   <CategoryCard key={category.name} category={category.name} image={category.image} />

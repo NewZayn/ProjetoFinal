@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useState, useEffect, useContext } from 'react';
-import { Box, Heading, SimpleGrid, Text, Flex, Button, Stack, Divider } from '@chakra-ui/react';
+import { Box, Heading, SimpleGrid, Text, Flex, Button, Divider } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import BookCard from "../routes/components/book.jsx";
 import { fetchCreatedBooks } from '../script/Book.js';
@@ -38,7 +38,7 @@ const BookCase = () => {
         };
 
         if (user && !showCreatedBooks) {
-            fetchBooks();
+            fetchBooks().then(() => console.log("books found"));
         }
     }, [user, showCreatedBooks]);
 
@@ -122,8 +122,23 @@ const BookCase = () => {
                         </SimpleGrid>
                     </Box>
                 )}
+                {/* eslint-disable-next-line no-undef */}
+                <Divider mb={5} paddingTop={5}/>
+
+                <Flex borderEndRadius="1px solid gray.500">
+                    <Box height={100} backgroundcolor="red">
+                        <Heading>Histórico</Heading>
+                        <Text mb={5} paddingTop={10}>
+                            Nenhuma atividida registrada
+                        </Text>
+
+                    </Box>
+                </Flex>
             </Box>
+
         </Flex>
+
+
     );
 };
 

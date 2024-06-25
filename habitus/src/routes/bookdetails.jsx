@@ -30,6 +30,16 @@ const BookDetails = () => {
         window.open(book.pdf, '_blank');
     };
 
+   const handleDownload = () => {
+       // Redireciona para a URL do PDF com parâmetro para forçar o download
+       const url = `https://storage.googleapis.com/pergamo_alexandria/${encodeURIComponent(book.pdf)}?response-content-disposition=attachment`;
+        window.location.href = url;
+
+   }
+
+
+
+
     const handleAddToShelf = async () => {
         try {
             const favoriteDTO = { bookId: book.id };
@@ -57,12 +67,13 @@ const BookDetails = () => {
                                 <HStack spacing={4}>
                                     <Button colorScheme="purple" leftIcon={<Search2Icon />} onClick={handleReadOnline}>Ler online</Button>
                                     <Button colorScheme="purple" leftIcon={<AddIcon />} onClick={handleAddToShelf}>Adicionar à Estante</Button>
-                                    <Button colorScheme="purple" leftIcon={<DownloadIcon />} onClick={() => window.open(book.pdf)}>Download</Button>
+                                    <Button colorScheme="purple" leftIcon={<DownloadIcon />} onClick={handleDownload}>Download</Button>
                                 </HStack>
                             </Stack>
                         </Box>
                         <HStack spacing={4}>
-                            <Badge colorScheme={book.status === null ? "gray" : "blue"}>{statusText}</Badge>                            <Text>Este título tem acesso multiusuário.</Text>
+                            <Badge colorScheme={book.status === null ? "gray" : "blue"}>{statusText}</Badge>
+                            <Text>Este título tem acesso multiusuário.</Text>
                         </HStack>
                         <Box>
                             <Heading size="md" mb={2}>Disponibilidade para download</Heading>

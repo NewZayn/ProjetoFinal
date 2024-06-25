@@ -54,7 +54,7 @@ function Register() {
                     <Button colorScheme="teal" onClick={handleRegister}>Registrar</Button>
                 </Stack>
                 <Box mt={4} textAlign="center">
-                    <Link as={RouterLink} to="/" color="teal.500">Já tem uma conta? Faça login</Link>
+                    <Link as={RouterLink} to="/login" color="teal.500">Já tem uma conta? Faça login</Link>
                 </Box>
             </Box>
         </Flex>

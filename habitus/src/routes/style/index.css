@@ -1,33 +1,45 @@
-/* Define the default arrow styles */
+/* Slick Arrow Customization */
+
+/* Default arrow styles */
 .slick-prev,
 .slick-next {
-    font-size: 0; /* Hide the default text */
-    line-height: 0; /* Hide the default text */
+    font-size: 0;
+    line-height: 0;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     padding: 0;
     cursor: pointer;
-    color: #000; /* Cor padrão das setas */
     border: none;
-    background: transparent;
+    background: aqua;
 }
 
-/* Estilo para a seta anterior */
-.slick-prev:before {
-    font-size: 20px;
-    color: gray; /* Mude a cor aqui */
-}
-
+.slick-prev:before,
 .slick-next:before {
-    font-size: 20px;
-    color: gray;
+    display: inline-block;
+    color: aqua;
+    font-size: 40px;
+    background: gray;
+    border-radius: 50%; /* Torna os botões redondos */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    border: 2px solid ; /* Adiciona uma borda */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Adiciona transições suaves */
 }
+
+.slick-prev:hover:before,
+.slick-next:hover:before {
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7);
+    background-color: dodgerblue;
+}
+
 
 .slick-prev {
     left: -25px;
+
 }
 
 .slick-next {
+
     right: -25px;
 }
