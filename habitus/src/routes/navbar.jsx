@@ -17,7 +17,7 @@ import {
   Button,
   IconButton,
   Text,
-  Avatar, VStack, Center, Input, List, ListItem,
+  Avatar, VStack, Center, Input, List, ListItem, Badge,
 } from '@chakra-ui/react';
 import {ChevronDownIcon, Search2Icon} from '@chakra-ui/icons';
 import { AuthContext } from '../authcontext.jsx';
@@ -52,7 +52,6 @@ const Navbar = () => {
     }
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedSearch = useCallback(debounce(searchBooks, 300), []);
 
   const handleSuggestionClick = (title) => {
@@ -64,7 +63,11 @@ const Navbar = () => {
               align={'center'} alignItems={"center"}>
           <Box>
             <Heading color="white" paddingLeft={40}>
-              <Text fontFamily=" 'Poppins', sans-serif" color={"gray.300"}>Alexandria</Text>
+              <Text fontFamily="
+                    'Poppins',
+                    sans-serif"
+                    color={"gray.300"}
+              >Alexandria</Text>
             </Heading>
           </Box>
           <Flex  alignItems="center" justifyContent="space-between">
@@ -108,10 +111,10 @@ const Navbar = () => {
 
           <HStack spacing={8} alignItems="center" >
             <HStack as="nav" spacing={4} display={{ base: 'none', md: 'flex' }}>
-              <Link as={RouterLink} to="/" color="white" >
+              <Link as={RouterLink} to="/" color="white" fontFamily={"Poppins"} fontWeight={600} >
                 Home
               </Link>
-              <Link as={RouterLink} to="/about" color="white" >
+              <Link as={RouterLink} to="/about" color="white" fontFamily={"Poppins"} fontWeight={600} >
                 Sobre
               </Link>
               <Menu isOpen={isCategoryOpen} >
@@ -150,7 +153,9 @@ const Navbar = () => {
                   <Menu>
                     <MenuButton
                         as={IconButton}
-                        icon={<Avatar size="sm" name={user.name} />}
+                        icon={<Avatar size="sm" name={user.name} fontFamily={"Poppins"} fontWeight={600}/>}
+                        fontFamily={"Poppins"}
+                        fontWeight={600}
                         variant="link"
                         color="white"
                         _hover={{ bg: 'blue.400' }}
@@ -159,9 +164,9 @@ const Navbar = () => {
                         alignItems="flex-start"
                         spacing="1px"
                         ml="2">
-                      <Text fontSize="sm">{user.name}</Text>
+                      <Text fontSize="sm" fontFamily={"Poppins"} >{user.name} </Text>
                       <Text fontSize="xs" color="gray.600">
-                        {user.status}
+                        <Badge colorScheme="green">Admin</Badge>
                       </Text>
                     </VStack>
                     <MenuList>
