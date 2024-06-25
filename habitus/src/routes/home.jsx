@@ -12,12 +12,12 @@ import { fetchBooks, fetchTop10Books } from '../script/Book.js';
 
 
 const categories = [
-  { name: 'Romance', image: 'src/assets/images.jpeg' },
-  { name: 'Ficção Científica', image: 'src/assets/ficção.jpeg' },
-  { name: 'Fantasia', image: 'src/assets/aventura.jpeg' },
-  { name: 'Biografia', image: 'src/assets/g.jpg' },
-  { name: 'História', image: 'src/assets/l.jpg' },
-  { name: 'Mistério', image: 'src/assets/p.jpg' },
+  { name: 'Romance', image: '../assets/images.jpeg' },
+  { name: 'Ficção Científica', image: '../assets/ficção.jpeg' },
+  { name: 'Fantasia', image: '../assets/aventura.jpeg' },
+  { name: 'Biografia', image: '../assets/g.jpg' },
+  { name: 'História', image: '../assets/l.jpg' },
+  { name: 'Mistério', image: '../assets/p.jpg' },
 ];
 
 const Home = () => {
