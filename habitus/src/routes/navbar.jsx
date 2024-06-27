@@ -52,6 +52,7 @@ const Navbar = () => {
     }
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedSearch = useCallback(debounce(searchBooks, 300), []);
 
   const handleSuggestionClick = (title) => {
@@ -77,13 +78,12 @@ const Navbar = () => {
                     placeholder="Procurar livros..."
                     value={searchTerm}
                     onChange={handleSearchChange}
-                    borderRadius="full"
                     bg="gray.100"
                     _placeholder={{ color: 'grey.100' }}
                     width={500}
                 />
                 {suggestions.length > 0 && (
-                    <List position="absolute" bg="white" zIndex="1" w="100%" borderRadius="md" >
+                    <List position="absolute" bg="white" zIndex="1" w="100%" >
                       {suggestions.map((book) => (
                           <ListItem
                               key={book.id}
@@ -153,9 +153,8 @@ const Navbar = () => {
                   <Menu>
                     <MenuButton
                         as={IconButton}
-                        icon={<Avatar size="sm" name={user.name} fontFamily={"Poppins"} fontWeight={600}/>}
+                        icon={<Avatar size="sm" name={user.name} fontFamily={"Poppins"}/>}
                         fontFamily={"Poppins"}
-                        fontWeight={600}
                         variant="link"
                         color="white"
                         _hover={{ bg: 'blue.400' }}
@@ -166,7 +165,7 @@ const Navbar = () => {
                         ml="2">
                       <Text fontSize="sm" fontFamily={"Poppins"} >{user.name} </Text>
                       <Text fontSize="xs" color="gray.600">
-                        <Badge colorScheme="green">Admin</Badge>
+                        <Badge colorScheme="green" fontFamily={"Poppins"}>Admin</Badge>
                       </Text>
                     </VStack>
                     <MenuList>

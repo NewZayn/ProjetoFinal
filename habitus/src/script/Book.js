@@ -40,6 +40,14 @@ export const fetchCreatedBooks = async (accountId) => {
     return await response.json();
 };
 
+export const fetchRandomBook = async () => {
+    const response = await fetch(`${BASE_URL}/random`);
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    return await response.json();
+}
+
 export const addBook = async (userId, book) => {
     const response = await fetch(`${BASE_URL}/${userId}/addBook`, {
         method: 'POST',

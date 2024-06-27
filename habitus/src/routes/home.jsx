@@ -1,13 +1,25 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useState, useEffect } from 'react';
-import {Box, Heading, VStack, Center, Text, Flex, Button} from '@chakra-ui/react';
+import {
+  Box,
+  Heading,
+  VStack,
+  Center,
+  Text,
+  Flex,
+  Button,
+  ModalBody,
+  Modal,
+  ModalOverlay,
+  ModalContent, ModalHeader, ModalCloseButton, useDisclosure, Grid, GridItem
+} from '@chakra-ui/react';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import BookCard from './components/book.jsx';
 import CategoryCard from './components/category.jsx';
 import './style/index.css';
-import { fetchBooks, fetchTop10Books } from '../script/Book.js';
+import { fetchBooks, fetchTop10Books , fetchRandomBook} from '../script/Book.js';
 import p from "../assets/aventura.jpeg";
 import g from "../assets/ficção.jpeg";
 import e from "../assets/g.jpg"
@@ -30,6 +42,9 @@ const Home = () => {
   const [books, setBooks] = useState([]);
   const [top10Books, setTop10Books] = useState([]);
   const [error, setError] = useState(null);
+  const [randomBook, setRandomBook] = useState(1);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
 
 
   useEffect(() => {
@@ -40,8 +55,13 @@ const Home = () => {
     fetchTop10Books()
         .then(response => setTop10Books(response))
         .catch(error => setError('Erro ao buscar top 10 livros: ' + error.message));
-  }, []);
+    fetchRandomBook()
+        .then(response => setRandomBook(response))
+        .catch(error => setError('Erro ao buscar livros: ' + error.message));
 
+    }, []);
+
+  let booksArray = [randomBook];
 
   const sliderSettings = {
     dots: true,
@@ -117,10 +137,28 @@ const Home = () => {
               <Text padding={22} as="h1" fontSize="2xl" mt={4} textAlign="center">
                 Explore nossa Biblioteca
               </Text>
-              <Button  borderRadius="md" color="white" background="blue.500">Recomendação do dia </Button>
+              <Button  borderRadius="md" color="white" background="blue.500" onClick={onOpen}>Recomendação do dia </Button>
             </Flex>
           </Center>
         </Box>
+        {/* Popup */}
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+             <Center>
+               <ModalHeader color={"gold"}>Recomendação</ModalHeader>
+             </Center>
+            <ModalCloseButton />
+            <ModalBody>
+              <Center> {booksArray.map((book) => (
+                  <Box key={book.id}>
+                    <BookCard  book={book} />
+                  </Box>
+              ))}
+              </Center>
+            </ModalBody>
+          </ModalContent>
+        </Modal>
         <VStack spacing={4} align="stretch">
           {error && <Box color="red.500">{error}</Box>}
           <Heading size="lg" mt={4} mb={4}>

@@ -3,6 +3,7 @@ import React from 'react';
 import {Box, Center, Image, Heading, Text, LinkBox, LinkOverlay, Flex , Badge} from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
 
+// eslint-disable-next-line react/prop-types
 const BookImage = ({ image, title }) => (
     <Image
         py={2}
@@ -21,19 +22,24 @@ const BookCard = ({ book }) => {
         <Center maxW="260px" borderRadius="md" overflow="hidden" bg="white" >
             <LinkBox as="article">
                 <Box >
+                    {/* eslint-disable-next-line react/prop-types */}
                     <BookImage key={book.id} image={book.image} title={book.title}  />
                     <Flex flexDirection="column" justifyContent="space-between" >
 
+                        {/* eslint-disable-next-line react/prop-types */}
                     <LinkOverlay as={RouterLink} to={`/bookdetails/${book.id}`}>
                         {/* eslint-disable-next-line react/prop-types */}
                         <Heading size="md" paddingTop={3} fontSize={15} isTruncated maxW="200px">{book.title} </Heading >
+                        {/* eslint-disable-next-line react/prop-types */}
                         <Text color="grey" size="md" fontSize={13} isTruncated maxW="200px">Autor: {book.author} </Text>
 
                     </LinkOverlay>
                         <Flex>
                             <Text  fontSize={10} fontWeight={600} color="green" borderRadius={5} shadow="initial">Público</Text>
                         </Flex>
+                        {/* eslint-disable-next-line react/prop-types */}
                     {book.publisher && <Text>Editora: {book.publisher}</Text>}
+                        {/* eslint-disable-next-line */}
                     {book.year && <Text>Ano: {book.year}</Text>}
                     </Flex>
                 </Box>
